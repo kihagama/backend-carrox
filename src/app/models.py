@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -7,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 class Team(models.Model):
     name = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
-    image = models.FileField(upload_to="images", null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)  # Use ImageField, no upload_to needed
 
     def __str__(self):
         return self.name
@@ -16,7 +15,7 @@ class Team(models.Model):
 class Car(models.Model):
     title = models.CharField(max_length=255)  # Car name
     description = models.TextField()  # Details about the car
-    image = models.FileField(upload_to="cars", null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)  # Use ImageField
     price_per_day = models.DecimalField(max_digits=10, decimal_places=2)  # UGX
 
     def __str__(self):
@@ -30,7 +29,11 @@ class CarHiring(models.Model):
     phone = models.CharField(max_length=20)
     start_date = models.DateField()
     end_date = models.DateField()
-    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')], default='pending')
+    status = models.CharField(
+        max_length=50, 
+        choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
+        default='pending'
+    )
 
     def __str__(self):
         return f"{self.customer_name} - {self.car.title}"
@@ -42,7 +45,11 @@ class CarWashBooking(models.Model):
     phone = models.CharField(max_length=20)
     car_details = models.CharField(max_length=255)
     booking_date = models.DateField()
-    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')], default='pending')
+    status = models.CharField(
+        max_length=50, 
+        choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
+        default='pending'
+    )
 
     def __str__(self):
         return f"{self.customer_name} - {self.car_details}"
@@ -63,7 +70,7 @@ class Payment(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    image = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)  # ImageField, no upload_to needed
 
     def __str__(self):
         return f"Profile of {self.user.username}"

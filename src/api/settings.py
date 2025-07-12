@@ -22,7 +22,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-default-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ["*"]  # ✅ Change this for production
+ALLOWED_HOSTS = ["https://backend-carrox.onrender.com"]  # ✅ Change this for production
 
 
 # Application definition
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework',
     'django_rest_passwordreset',
-    'app'
+    'app',
+   'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +125,13 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dhr7rbs2h',
+    'API_KEY': '579649157918778',
+    'API_SECRET': 'WXQ1u1vwmZxOHSjNjXBxOwZ85W8',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # ✅ Static & Media files
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
