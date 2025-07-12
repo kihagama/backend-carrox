@@ -3,7 +3,7 @@ import os
 import sys
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.api.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
