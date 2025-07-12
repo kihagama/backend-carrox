@@ -22,7 +22,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-default-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ["backend-carrox.onrender.com"]  # ✅ Change this for production
+ALLOWED_HOSTS = ["*"]  # ✅ Change this for production
 
 
 # Application definition
