@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework',
     'django_rest_passwordreset',
-    'app',
+    'app.apps.AppConfigName',
    'cloudinary',
     'cloudinary_storage',
 ]
