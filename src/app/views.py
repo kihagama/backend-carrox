@@ -139,7 +139,7 @@ def sendemails(request):
     subject = request.data.get("usersname")
     message = request.data.get("message")
     email = request.data.get("email")
-    full_message = f"Send Email:{email}\n\n Message:{message}"
+    full_message = f"Send Email: {email}\n\nMessage: {message}"
     send_mail(
         subject, full_message, settings.EMAIL_HOST_USER, ["ismaelkihagama@gmail.com"],
         fail_silently=False
@@ -167,7 +167,7 @@ def simulate_payment(request):
         booking.status = "confirmed"
         booking.save()
         content_type = ContentType.objects.get_for_model(CarWashBooking)
-        serializer = CarWashBookingSerializer(booking, context={'request': request})
+        serializer = CarWashBookingSerializer(booking)
     else:
         return Response({"error": "Invalid booking_type"}, status=400)
 
@@ -192,8 +192,11 @@ def get_profile(request):
 @parser_classes([MultiPartParser, FormParser])
 def update_profile(request):
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
+    print("DATA:", request.data)
+    print("FILES:", request.FILES)
     serializer = UserProfileSerializer(profile, data=request.data, partial=True, context={'request': request})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    print(serializer.errors)
     return Response(serializer.errors, status=400)
