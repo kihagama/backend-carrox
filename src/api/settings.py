@@ -125,6 +125,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# ✅ Cloudinary storage
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dhr7rbs2h',
     'API_KEY': '579649157918778',
@@ -132,11 +133,15 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-# ✅ Static & Media files
+
+# ✅ Static files (served by Whitenoise)
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ✅ Media settings are not used for Cloudinary, but harmless to keep
+MEDIA_URL = ''
+MEDIA_ROOT = ''
 
 # ✅ Email settings — read from .env
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -149,5 +154,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 # ✅ Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
