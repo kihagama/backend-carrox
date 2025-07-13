@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Team, Car, CarHiring, CarWashBooking, Payment, UserProfile
+from cloudinary.utils import cloudinary_url
 
 class TeamSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
@@ -10,7 +11,8 @@ class TeamSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            return obj.image.url  # Return raw Cloudinary URL
+            url, _ = cloudinary_url(obj.image.name, secure=True)
+            return url
         return None
 
 
@@ -23,7 +25,8 @@ class CarSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            return obj.image.url  # Return raw Cloudinary URL
+            url, _ = cloudinary_url(obj.image.name, secure=True)
+            return url
         return None
 
 
@@ -63,5 +66,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            return obj.image.url  # Return raw Cloudinary URL
+            url, _ = cloudinary_url(obj.image.name, secure=True)
+            return url
         return None
