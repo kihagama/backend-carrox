@@ -10,11 +10,9 @@ class TeamSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return obj.image.url  # Return raw Cloudinary URL
         return None
+
 
 class CarSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
@@ -25,36 +23,36 @@ class CarSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return obj.image.url  # Return raw Cloudinary URL
         return None
+
 
 class CarHiringSerializer(serializers.ModelSerializer):
     car = serializers.PrimaryKeyRelatedField(queryset=Car.objects.all())
-    car_details = CarSerializer(source='car', read_only=True, context={})
+    car_details = CarSerializer(source='car', read_only=True)
 
     class Meta:
         model = CarHiring
         fields = '__all__'
 
     def to_representation(self, instance):
-        # Pass request context down to nested serializer
         rep = super().to_representation(instance)
         car_serializer = CarSerializer(instance.car, context=self.context)
         rep['car_details'] = car_serializer.data
         return rep
+
 
 class CarWashBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarWashBooking
         fields = '__all__'
 
+
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
@@ -65,8 +63,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-            return obj.image.url
+            return obj.image.url  # Return raw Cloudinary URL
         return None
