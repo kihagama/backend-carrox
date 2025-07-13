@@ -2,35 +2,19 @@ from rest_framework import serializers
 from .models import Team, Car, CarHiring, CarWashBooking, Payment, UserProfile
 
 class TeamSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = Team
         fields = '__all__'
 
-    def get_image(self, obj):
-        if obj.image:
-            try:
-                return obj.image.url
-            except Exception:
-                return None
-        return None
-
 
 class CarSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = Car
         fields = '__all__'
-
-    def get_image(self, obj):
-        if obj.image:
-            try:
-                return obj.image.url
-            except Exception:
-                return None
-        return None
 
 
 class CarHiringSerializer(serializers.ModelSerializer):
@@ -61,16 +45,8 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = UserProfile
         fields = ['user', 'image']
-
-    def get_image(self, obj):
-        if obj.image:
-            try:
-                return obj.image.url
-            except Exception:
-                return None
-        return None

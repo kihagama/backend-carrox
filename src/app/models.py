@@ -2,21 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-
+from cloudinary_storage.storage import MediaCloudinaryStorage
 class Team(models.Model):
     name = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
-    image = models.ImageField(null=True, blank=True)  # Use ImageField, no upload_to needed
+    image = models.ImageField(null=True, blank=True, storage=MediaCloudinaryStorage())
 
     def __str__(self):
         return self.name
 
 
 class Car(models.Model):
-    title = models.CharField(max_length=255)  # Car name
-    description = models.TextField()  # Details about the car
-    image = models.ImageField(null=True, blank=True)  # Use ImageField
-    price_per_day = models.DecimalField(max_digits=10, decimal_places=2)  # UGX
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(null=True, blank=True, storage=MediaCloudinaryStorage())
+    price_per_day = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return self.title
@@ -30,7 +30,7 @@ class CarHiring(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(
-        max_length=50, 
+        max_length=50,
         choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
         default='pending'
     )
@@ -46,7 +46,7 @@ class CarWashBooking(models.Model):
     car_details = models.CharField(max_length=255)
     booking_date = models.DateField()
     status = models.CharField(
-        max_length=50, 
+        max_length=50,
         choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
         default='pending'
     )
@@ -70,7 +70,7 @@ class Payment(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    image = models.ImageField(null=True, blank=True)  # ImageField, no upload_to needed
+    image = models.ImageField(null=True, blank=True, storage=MediaCloudinaryStorage())
 
     def __str__(self):
         return f"Profile of {self.user.username}"

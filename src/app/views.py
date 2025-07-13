@@ -49,7 +49,7 @@ def hire_car(request):
     if request.method == "POST":
         serializer = CarHiringSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save(status="Pending")
+            serializer.save(status="pending")  # Use lowercase 'pending'
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -67,7 +67,7 @@ def book_car_wash(request):
     if request.method == "POST":
         serializer = CarWashBookingSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(status="Pending")
+            serializer.save(status="pending")  # Use lowercase 'pending'
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -192,11 +192,8 @@ def get_profile(request):
 @parser_classes([MultiPartParser, FormParser])
 def update_profile(request):
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
-    print("DATA:", request.data)
-    print("FILES:", request.FILES)
     serializer = UserProfileSerializer(profile, data=request.data, partial=True, context={'request': request})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    print(serializer.errors)
     return Response(serializer.errors, status=400)
