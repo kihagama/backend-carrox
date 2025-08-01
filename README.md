@@ -1,1 +1,1 @@
-This is the django backend end of my carrox application 
+This is the django backend  of my carrox application 
